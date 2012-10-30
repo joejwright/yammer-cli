@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'yammer-cli'
+
+puts "starting yammer-cli"
+
+options = {}
+
+optparse = OptionParser.new do|opts|
+  opts.banner = "Usage: yammer [options] ..."
+
+  options[:update] = false
+  opts.on( '-u', '--update', 'Send an update to yammer' ) do
+    options[:update] = true
+  end
+
+  options[:list] = false
+  opts.on( '-l', '--list', 'Get the last 20 updates' ) do
+    options[:list] = true
+  end
+
+  options[:setup] = false
+  opts.on( '-s', '--setup', 'Setup OAuth authentication to Yammer' ) do
+    options[:setup] = true
+  end
+
+  opts.on( '-h', '--help', 'Display this screen' ) do
+    puts opts
+    exit
+  end
+end
+
+#parse command line arguments and remove parsed flags from ARGV
+optparse.parse!
+
+yammer = Yammer.new
+
+if options[:update]
+  yammer.send_update(ARGV.join(' '))
+elsif options[:list]
+  puts "sending list"
+  yammer.list
+elsif options[:setup]
+  yammer.setup
+end
