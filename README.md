@@ -5,13 +5,16 @@ This is a simple command line interface for Yammer that can be used to quickly l
 
 Usage
 -----
-    ./yammer.rb -u "Yammer from the command line is so much quicker!" (post update)
+    yammer -s (Setup oAuth parameters)
 
-    ./yammer.rb -l (list last 20 updates)
+    yammer -u "Yammer from the command line is so much quicker!" (post update)
+
+    yammer -l (list last 20 updates)
 
 Right now you'll have to manually configure your OAuth token and secret in the source code.
 
 TODO
 ----
 
-* Add better support for configuring OAuth credentials
+* Add better options for listing previous updates.
+* Seperate updates by day / hour
