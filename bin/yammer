@@ -32,11 +32,12 @@ end
 #parse command line arguments and remove parsed flags from ARGV
 optparse.parse!
 
-yammer = YammerCli.new
 
 if options[:update]
+  yammer = YammerCli.new
   yammer.send_update(ARGV.join(' '))
 elsif options[:list]
+  yammer = YammerCli.new
   yammer.list
 elsif options[:setup]
   YammerCli.setup

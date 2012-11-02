@@ -18,7 +18,7 @@ class YammerCli
 
   def initialize
 
-    settings_path = File.expand_path('./lib/config.yml')
+    settings_path = File.dirname(__FILE__) + '/config.yml'
 
     if File.exists?(settings_path)
       settings = YAML::load(File.open(settings_path))
@@ -76,7 +76,7 @@ class YammerCli
 
     tokens = {:oauth_token => access_token.token, :oauth_secret => access_token.secret}
 
-    settings_path = File.expand_path('./lib/config.yml')
+    settings_path = File.dirname(__FILE__) + '/config.yml'
 
     File.open(settings_path, "w") do |f|
       f.write tokens.to_yaml
