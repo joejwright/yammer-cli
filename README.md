@@ -18,3 +18,8 @@ TODO
 
 * Add better options for listing previous updates.
 * Seperate updates by day / hour
+
+TIPS
+----
+
+* alias "yammer -l " in your shell to y to make sending updates quicker. When sending a yammer updates I simply type y "Heading to client meeting."
