@@ -1,9 +1,9 @@
 require 'yammer'
 require 'rainbow'
+require 'launchy'
 require 'date'
 require 'oauth'
 require 'yaml'
-require 'pry'
 
 class YammerCli
 
@@ -12,6 +12,10 @@ class YammerCli
   CONSUMER_TOKEN = 'mWn3PY7sc2znsuZxEMvNUQ'
   CONSUMER_SECRET = 'AGP2akBsMwybb1AoGBp7RdLc4vfb2l3NY4P6VM'
 
+  def self.new
+    super
+  end
+
   def initialize
 
     settings_path = File.expand_path('./lib/config.yml')
@@ -19,7 +23,7 @@ class YammerCli
     if File.exists?(settings_path)
       settings = YAML::load(File.open(settings_path))
     else
-      puts "Settings not found. Run yammer with config option."
+      puts "Settings not found. Run yammer with --setup (-s) option."
       exit
     end
 
@@ -56,22 +60,29 @@ class YammerCli
     end
   end
 
-  def setup
+  def self.setup
     consumer=OAuth::Consumer.new CONSUMER_TOKEN,
       CONSUMER_SECRET, 
       {:site=>"https://www.yammer.com"}
 
     request_token=consumer.get_request_token
 
-    puts "Place \"#{request_token.authorize_url}\" in your browser"
-    print "Enter the number they give you: "
+    Launchy.open(request_token.authorize_url)
+
+    print "Enter the code from the Yammer website: "
     pin = STDIN.readline.chomp
 
     access_token = request_token.get_access_token(:oauth_verifier => pin)
 
-    puts "Token: #{access_token.token}"
+    tokens = {:oauth_token => access_token.token, :oauth_secret => access_token.secret}
 
-    puts "Secret: #{access_token.secret}"
+    settings_path = File.expand_path('./lib/config.yml')
+
+    File.open(settings_path, "w") do |f|
+      f.write tokens.to_yaml
+    end
+
+    puts "Settings saved."
 
   end
 
@@ -82,12 +93,5 @@ class YammerCli
     user.first
   end
 
-
-
-  if options[:setup]
-
-
-
-  end
 
 end

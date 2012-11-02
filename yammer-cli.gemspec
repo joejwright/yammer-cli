@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'yammer'
   gem.add_runtime_dependency 'rainbow'
   gem.add_runtime_dependency 'oauth'
+  gem.add_runtime_dependency 'launchy'
 
   gem.add_development_dependency 'bundler'
   gem.add_development_dependency 'rake'

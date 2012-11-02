@@ -3,8 +3,6 @@
 require 'optparse'
 require 'yammer-cli'
 
-puts "starting yammer-cli"
-
 options = {}
 
 optparse = OptionParser.new do|opts|
@@ -34,13 +32,12 @@ end
 #parse command line arguments and remove parsed flags from ARGV
 optparse.parse!
 
-yammer = Yammer.new
+yammer = YammerCli.new
 
 if options[:update]
   yammer.send_update(ARGV.join(' '))
 elsif options[:list]
-  puts "sending list"
   yammer.list
 elsif options[:setup]
-  yammer.setup
+  YammerCli.setup
 end
