@@ -3,6 +3,11 @@ A Yammer Command Line Interface
 
 This is a simple command line interface for Yammer that can be used to quickly lookup and post new updates.
 
+Installation
+------------
+
+    gem install yammer-cli
+
 Usage
 -----
     yammer -s (Setup oAuth parameters)
