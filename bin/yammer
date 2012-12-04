@@ -4,6 +4,7 @@ require 'optparse'
 require 'yammer-cli'
 
 options = {}
+params = {}
 
 optparse = OptionParser.new do|opts|
   opts.banner = "Usage: yammer [options] ..."
@@ -13,6 +14,10 @@ optparse = OptionParser.new do|opts|
     options[:update] = true
   end
 
+  opts.on( '-g, id', Integer, 'Groupe id to post on' ) do |id|
+    params[:group_id] = id
+  end
+  
   options[:list] = false
   opts.on( '-l', '--list', 'Get the last 20 updates' ) do
     options[:list] = true
@@ -35,7 +40,7 @@ optparse.parse!
 
 if options[:update]
   yammer = YammerCli.new
-  yammer.send_update(ARGV.join(' '))
+  yammer.send_update(ARGV.join(' '), params)
 elsif options[:list]
   yammer = YammerCli.new
   yammer.list

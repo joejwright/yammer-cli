@@ -40,9 +40,9 @@ class YammerCli
 
   end
 
-  def send_update(update)
+  def send_update(update, params)
       puts "Sending update to Yammer: #{update}"
-      @yammer.update(update)
+      @yammer.update(update, params)
   end
 
   def list
