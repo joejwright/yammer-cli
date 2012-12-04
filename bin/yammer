@@ -14,7 +14,9 @@ optparse = OptionParser.new do|opts|
     options[:update] = true
   end
 
+  options[:group] = false
   opts.on( '-g, id', Integer, 'Groupe id to post on' ) do |id|
+    options[:group] = true
     params[:group_id] = id
   end
   
@@ -24,8 +26,10 @@ optparse = OptionParser.new do|opts|
   end
 
   options[:setup] = false
-  opts.on( '-s', '--setup', 'Setup OAuth authentication to Yammer' ) do
+  opts.on( '-s consumer_token,consumer_secret', Array, 'Setup OAuth authentication to Yammer' ) do |setup|
     options[:setup] = true
+    options[:consumer_token] = setup[0]
+    options[:consumer_secret] = setup[1]
   end
 
   opts.on( '-h', '--help', 'Display this screen' ) do
@@ -37,13 +41,12 @@ end
 #parse command line arguments and remove parsed flags from ARGV
 optparse.parse!
 
-
-if options[:update]
+if options[:update] or options[:group]
   yammer = YammerCli.new
   yammer.send_update(ARGV.join(' '), params)
 elsif options[:list]
   yammer = YammerCli.new
   yammer.list
 elsif options[:setup]
-  YammerCli.setup
+  YammerCli.setup(options[:consumer_token], options[:consumer_secret])
 end
