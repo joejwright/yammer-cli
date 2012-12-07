@@ -8,10 +8,7 @@ require 'yaml'
 class YammerCli
 
   #attr_accessor :yammer
-
-  CONSUMER_TOKEN = 'mWn3PY7sc2znsuZxEMvNUQ'
-  CONSUMER_SECRET = 'AGP2akBsMwybb1AoGBp7RdLc4vfb2l3NY4P6VM'
-
+  
   def self.new
     super
   end
@@ -29,8 +26,8 @@ class YammerCli
 
     #configure the yammer authentication parameters
     Yammer.configure do |config|
-      config.consumer_key = CONSUMER_TOKEN
-      config.consumer_secret = CONSUMER_SECRET
+      config.consumer_key = settings[:consumer_token]
+      config.consumer_secret = settings[:consumer_secret]
       config.oauth_token = settings[:oauth_token]
       config.oauth_token_secret = settings[:oauth_secret]
     end
@@ -60,9 +57,9 @@ class YammerCli
     end
   end
 
-  def self.setup
-    consumer=OAuth::Consumer.new CONSUMER_TOKEN,
-      CONSUMER_SECRET, 
+  def self.setup(consumer_token, consumer_secret)
+    consumer=OAuth::Consumer.new consumer_token,
+      consumer_secret, 
       {:site=>"https://www.yammer.com"}
 
     request_token=consumer.get_request_token
@@ -74,7 +71,7 @@ class YammerCli
 
     access_token = request_token.get_access_token(:oauth_verifier => pin)
 
-    tokens = {:oauth_token => access_token.token, :oauth_secret => access_token.secret}
+    tokens = {:oauth_token => access_token.token, :oauth_secret => access_token.secret, :consumer_token => consumer_token, :consumer_secret => consumer_secret}
 
     settings_path = File.dirname(__FILE__) + '/config.yml'
 

@@ -10,13 +10,13 @@ Installation
 
 Usage
 -----
-    yammer -s (Setup oAuth parameters)
+    yammer -s consumer_token,consumer_secret (Setup oAuth parameters)
 
     yammer -u "Yammer from the command line is so much quicker!" (post update)
 
-    yammer -l (list last 20 updates)
+    yammer -g group_id (post update in a group)
 
-Right now you'll have to manually configure your OAuth token and secret in the source code.
+    yammer -l (list last 20 updates)
 
 TODO
 ----
