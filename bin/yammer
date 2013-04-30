@@ -26,7 +26,7 @@ optparse = OptionParser.new do|opts|
   end
 
   options[:setup] = false
-  opts.on( '-s consumer_token,consumer_secret', Array, 'Setup OAuth authentication to Yammer' ) do |setup|
+  opts.on( '-s', '--setup consumer_token,consumer_secret', Array, 'Setup OAuth authentication to Yammer' ) do |setup|
     options[:setup] = true
     options[:consumer_token] = setup[0]
     options[:consumer_secret] = setup[1]
