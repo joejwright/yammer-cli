@@ -7,20 +7,18 @@ require 'yaml'
 
 class YammerCli
 
-  #attr_accessor :yammer
-  
   def self.new
     super
   end
 
   def initialize
 
-    settings_path = File.dirname(__FILE__) + '/config.yml'
+    @config_file_path = File.dirname(__FILE__) + '/config.yml'
+    @required_settings = [:consumer_token, :consumer_secret, :oauth_token, :oauth_secret]
 
-    if File.exists?(settings_path)
-      settings = YAML::load(File.open(settings_path))
+    if valid_config?
+      settings = YAML::load(File.open(@config_file_path))
     else
-      puts "Settings not found. Run yammer with --setup (-s) option."
       exit
     end
 
@@ -83,9 +81,8 @@ class YammerCli
 
     tokens = {:oauth_token => access_token.token, :oauth_secret => access_token.secret, :consumer_token => consumer_token, :consumer_secret => consumer_secret}
 
-    settings_path = File.dirname(__FILE__) + '/config.yml'
-
-    File.open(settings_path, "w") do |f|
+    config_file_path = File.dirname(__FILE__) + '/config.yml'
+    File.open(config_file_path, "w") do |f|
       f.write tokens.to_yaml
     end
 
@@ -93,6 +90,29 @@ class YammerCli
 
   end
 
+  def valid_config?
+
+    valid_config = true
+    if File.exists?(@config_file_path)
+      settings = YAML::load(File.open(@config_file_path))
+      @required_settings.each do |required_setting|
+        if settings[required_setting] == nil
+          valid_config = false
+        end
+      end
+    else
+      valid_config = false
+    end
+    
+    if !valid_config
+      puts "Settings not valid. Run yammer with --setup (-s) option with your yammer Consumer Token and Consumer Secret."
+      puts "If you have not registered the app you can do so here https://developer.yammer.com/introduction/"
+      puts "to receive your Consumer Token and Consumer Secret."
+    end
+
+    valid_config
+
+  end
 
   #search users for user with specific id and return that user
   def get_user(users, id)
