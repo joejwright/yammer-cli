@@ -48,12 +48,22 @@ class YammerCli
     #parse out user objects from references
     users = messages[:references].select {|f| f[:type] == 'user' }
 
+    current_date = ""
+
     #parse each message and look up user names from users array
     messages[:messages].each do |message|
       body = message[:body][:plain]
-      created_at = DateTime.parse(message[:created_at]).to_time.getlocal.strftime("%I:%M%p")
+      created_at = DateTime.parse(message[:created_at])
+      date = get_date(created_at.to_date)
       user = get_user(users, message[:sender_id])[:full_name]
-      puts user.foreground(:red) + " at " + created_at.foreground(:blue) + " " + body
+
+      # write out current date
+      if date != current_date
+        puts " --- #{date} ---".foreground(:yellow)
+        current_date = date
+      end
+
+      puts user.foreground(:red) + " at " + created_at.strftime("%I:%M%p").foreground(:blue) + " " + body
     end
   end
 
@@ -88,6 +98,11 @@ class YammerCli
   def get_user(users, id)
     user = users.select { |f| f[:id] == id }
     user.first
+  end
+
+  # return either Today or formatted date
+  def get_date(date)
+    date == Date.today ? "Today" : date.strftime("%A, %B %e %Y")
   end
 
 
