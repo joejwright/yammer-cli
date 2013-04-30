@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name          = "yammer-cli"
-  gem.version       = "0.2.2"
+  gem.version       = "0.2.3"
   gem.authors       = ["Joe Wright"]
   gem.email         = ["joe.wright@noventech.com"]
   gem.description   = "A yammer command line client."
