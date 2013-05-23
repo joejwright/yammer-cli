@@ -61,7 +61,7 @@ class YammerCli
         current_date = date
       end
 
-      puts user.foreground(:red) + " at " + created_at.strftime("%I:%M%p").foreground(:blue) + " " + body
+      puts user.foreground(:red) + " at " + created_at.to_time.getlocal.strftime("%I:%M%p").foreground(:blue) + " " + body
     end
   end
 
