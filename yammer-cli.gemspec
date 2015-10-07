@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["joe.wright@noventech.com"]
   gem.description   = "A yammer command line client."
   gem.summary       = "A yammer command line client."
-  gem.homepage      = "http://www.noventech.com"
+  gem.homepage      = "https://github.com/joejwright/yammer-cli"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   << 'yammer'
